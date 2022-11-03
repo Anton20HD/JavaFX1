@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.tt.javafx.HelloController">
+   <top>
+      <HBox fx:id="makeHBox" prefHeight="66.0" prefWidth="600.0" spacing="40.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="Circle" mnemonicParsing="false" onAction="#onCircleClicked" style="-fx-background-color: white;" text="Cirkel">
+               <font>
+                  <Font name="Georgia Bold" size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onRectangleClicked" style="-fx-background-color: white;" text="Rektangel">
+               <font>
+                  <Font name="Georgia Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="eraserButton" mnemonicParsing="false" onAction="#eraser" style="-fx-background-color: white;" text="Eraser">
+               <font>
+                  <Font name="Georgia Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+            <ColorPicker fx:id="myColorPicker"  prefHeight="25.0" prefWidth="52.0" style="-fx-background-color: white;">
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin></ColorPicker>
+            <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#exitAction" style="-fx-background-color: white;" text="Exit">
+               <font>
+                  <Font name="Georgia Bold" size="14.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </HBox>
+   </top>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <right>
+      <HBox prefHeight="204.0" prefWidth="62.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+         <children>
+            <ChoiceBox fx:id="myChoiceBox" prefHeight="25.0" prefWidth="59.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </ChoiceBox>
+         </children>
+      </HBox>
+   </right>
+   <center>
+      <Canvas fx:id="canvas" height="310.0" onMouseClicked="#canvasClicked" width="507.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
