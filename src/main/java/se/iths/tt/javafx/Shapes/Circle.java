@@ -6,8 +6,8 @@ import javafx.scene.paint.Color;
 public class Circle extends Shape {
 
 
-    public Circle(double x, double y, double width, double height, Color color) {
-        super(x, y, width, height, color);
+    public Circle(double x, double y, Color color, double size) {
+        super(x, y, color, size);
     }
 
     @Override
@@ -17,9 +17,14 @@ public class Circle extends Shape {
         context.setStroke(getColor());
         double y = getY();
         double x = getX();
-        context.fillOval( x,y,getWidth(),getHeight());
+        context.fillOval( x,y,getSize(),getSize());
 
 
+    }
+
+    @Override
+    public Shape getShapeCopy() {
+        return new Circle(getX(),getY(),getColor(),getSize());
     }
 }
 

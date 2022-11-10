@@ -3,42 +3,48 @@ package se.iths.tt.javafx;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import se.iths.tt.javafx.Model.shapeModel;
+import javafx.stage.FileChooser;
+import se.iths.tt.javafx.Model.ShapeModel;
 import se.iths.tt.javafx.Shapes.Shape;
+import se.iths.tt.javafx.Shapes.ShapeFactory;
 
 
-import java.util.Arrays;
+import java.io.File;
 
 public class HelloController {
 
 
+    public ShapeFactory shapeFactory;
     public Button eraserButton;
+    public Button undoButton;
+
+    public Button redoButton;
     public BorderPane scenePane;
     public ColorPicker myColorPicker;
     public ChoiceBox<String> myChoiceBox;
     public GraphicsContext context;
     public Canvas canvas;
-    public shapeModel model;
+    public ShapeModel model;
 
-    public int historyIndex = -1;
+
+
 
     public void initialize() {
         context = canvas.getGraphicsContext2D();
-        model.getShapeObservableList().addListener((ListChangeListener<Shape>) e -> listChanged());   //listchanged om inte redraw funkar.
+        model.getShapeObservableList().addListener((ListChangeListener<Shape>) e -> listChanged());
         myColorPicker.valueProperty().bindBidirectional(model.colorPickerSelectProperty());
     }
 
     public HelloController() {
 
-        this.model = new shapeModel();
-
+        this.model = new ShapeModel();
+        this.shapeFactory = new ShapeFactory();
     }
 
 //
@@ -50,64 +56,60 @@ public class HelloController {
 
     public void canvasClicked(MouseEvent mouseEvent) {
 
-        Shape shape = Shape.creatingShapes(model.getCurrentShape(),mouseEvent.getX(),mouseEvent.getY(),50,50,myColorPicker.getValue());
+        Shape shape = returnNewShapes(model.getCurrentShape(), mouseEvent.getX(), mouseEvent.getY(), myColorPicker.getValue(),50);
 
         model.addShapes(shape);
-//        redraw();
-        listChanged();
 
-//        shapes[count] = shape;
-//        count++;
-      //  paintCanvas();
+
+
 
     }
     public void listChanged() {
 
         var context = canvas.getGraphicsContext2D();
-
-        for (Shape s : model.getShapeObservableList()) {
-            s.draw(context);
-        }
+        model.getShapeObservableList().forEach(s -> s.draw(context));
 
     }
-//    public void redraw() {
-//
-//        GraphicsContext context = canvas.getGraphicsContext2D();
-//
-//
-//        context.clearRect(0, 0, canvas.getWidth(),canvas.getHeight());
-//        for (int i = 0; i <= historyIndex; i++) {
-//            model.getShapeObservableList().get(i).draw(context);
-//
-//
-//        }
-//    }
+
+    public Shape returnNewShapes(ShapeType shapeType,double x, double y, Color myColorPicker,double size) {
 
 
-//
-//    public void undo() {
-//
-//        if(historyIndex >= 0) {
-//            historyIndex--;
-//            redraw();
-//        }
-//
-//
-//    }
+        return ShapeFactory.creatingShapes(shapeType, x,y,myColorPicker,size);
+    }
 
-//    public void redo() {
-//
-//        if(historyIndex < model.getShapeObservableList().size()-1) {
-//            historyIndex++;
-//            model.getShapeObservableList(),(historyIndex).
-//        }
-//
-//    }
+
+
+    public void undoClicked() {
+
+        model.addToRedoHistory();
+        model.undo();
+
+
+    }
+
+    public void redo() {
+
+       model.addToUndoHistory();
+       model.redo();
+
+    }
+
+    public void handleClick() {
+
+        FileChooser chooser = new FileChooser();
+        File file = chooser.showSaveDialog(scenePane.getScene().getWindow());
+
+
+
+
+    }
 
 
     public void onCircleClicked(ActionEvent e) {
 
         model.setCurrentShape(ShapeType.CIRCLE);
+
+
 
 
     }
@@ -175,4 +177,16 @@ public class HelloController {
 //        Arrays.stream(shapes, 0, count).forEach(s -> s.draw(context));
 //
 //
+//    }
+//    public void redraw() {
+//
+//        GraphicsContext context = canvas.getGraphicsContext2D();
+//
+//
+//        context.clearRect(0, 0, canvas.getWidth(),canvas.getHeight());
+//        for (int i = 0; i <= historyIndex; i++) {
+//            model.getShapeObservableList().get(i).draw(context);
+//
+//
+//        }
 //    }
