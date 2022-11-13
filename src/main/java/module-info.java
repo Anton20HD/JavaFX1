@@ -9,4 +9,6 @@ module se.iths.tt.javafx {
     exports se.iths.tt.javafx.Shapes;
     exports se.iths.tt.javafx.Model;
     opens se.iths.tt.javafx.Model to javafx.fxml;
+    exports se.iths.tt.javafx.Controller;
+    opens se.iths.tt.javafx.Controller to javafx.fxml;
 }

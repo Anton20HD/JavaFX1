@@ -1,57 +1,91 @@
 package se.iths.tt.javafx.Model;
 
-import javafx.beans.Observable;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
-import se.iths.tt.javafx.ShapeType;
+import se.iths.tt.javafx.Shapes.ShapeType;
 import se.iths.tt.javafx.Shapes.Shape;
-import se.iths.tt.javafx.Shapes.ShapeFactory;
 
 
 import java.util.*;
 
+@FunctionalInterface
+interface Command {
+    void execute();
+
+}
 public class ShapeModel {
 
 
-   // Stack<Shape> undoHistory = new Stack<>();
-  //  Stack<Shape> redoHistory = new Stack<>();
+    Deque<Command> undoHistory = new ArrayDeque<>();
 
-//    private final Deque<Deque<Shape>> undoHistory;
-//    private final Deque<Deque<Shape>> redoHistory;
+    public ObservableList<Shape> shapeList;
 
+    public ObservableList<ShapeType> shapeTypesList;
 
-    private final ObservableList<Shape> shapeList;
-    private final ObjectProperty<Color> colorPickerSelect;
+    private final ObjectProperty<Color> colorPickerChooser;
 
-    private final int historyIndex = -1;
-    private ShapeType currentShape;
+    private final StringProperty sizeChooser;
+
+    private final ObjectProperty<ShapeType> currentShapeType = new SimpleObjectProperty<>(ShapeType.CIRCLE);
+
+    private Color color;
+
+    private double x;
+    private double y;
+
 
     public ShapeModel() {
 
-        this.undoHistory = new ArrayDeque<>();
-        this.redoHistory = new ArrayDeque<>();
-        this.colorPickerSelect = new SimpleObjectProperty<>(Color.GREEN);
-        this.shapeList = FXCollections.observableArrayList(shape -> new Observable[]{
-                shape.colorProperty()
+        this.sizeChooser = new SimpleStringProperty("60");
+        this.colorPickerChooser = new SimpleObjectProperty<>(Color.GREEN);
+        this.shapeList = FXCollections.observableArrayList();
+        this.shapeTypesList = FXCollections.observableArrayList(ShapeType.values());
 
 
-        });
+
+
     }
 
 
-    public ShapeType getCurrentShape() {
-        return currentShape;
+
+    public ObjectProperty<ShapeType> CurrentShapeType() {
+            return currentShapeType;
+
+
     }
 
-    public void setCurrentShape(ShapeType currentShape) {
-        this.currentShape = currentShape;
+    public ShapeType getCurrentShapeType() {
+
+        return currentShapeType.get();
     }
 
+    public Color getColor() {
+        return color;
+    }
 
-    public void addShapes(Shape shape) {
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void addToShapes(Shape shape) {
 
         if (!(shape == null))
             this.shapeList.add(shape);
@@ -59,76 +93,78 @@ public class ShapeModel {
     }
 
 
-    public Color getColorPickerSelect() {
-        return colorPickerSelect.get();
+    public Color getColorPickerChooser() {
+        return colorPickerChooser.get();
     }
 
-    public ObjectProperty<Color> colorPickerSelectProperty() {
-        return colorPickerSelect;
+    public ObjectProperty<Color> colorPickerChooserProperty() {
+        return colorPickerChooser;
     }
 
     public ObservableList<Shape> getShapeObservableList() {
         return shapeList;
     }
 
-    public Deque<Deque<Shape>> getUndoHistory() {
+    public void addUndo(Shape shape) {
 
+        Command undo = () ->shapeList.remove(shape);
+        undoHistory.push(undo);
 
-        return undoHistory;
     }
+    public void undoCommand() {
 
-    public Deque<Deque<Shape>> getRedoHistory() {
-        return redoHistory;
-    }
-
-
-    public Deque<Shape> getTempList() {
-        Deque<Shape> tempList = new ArrayDeque<>();
-        getShapeObservableList().forEach(shape -> tempList.add(shape.getShapeCopy()));
-            return tempList;
+        Command undo = undoHistory.pop();
+        undo.execute();
 
 
     }
 
-    public void addToUndoHistory() {
-        undoHistory.add(getTempList());
+    public double getShapeSizeAsDoubled() {
 
+        return Double.parseDouble(getSizeChooser());
     }
 
-    public void addToRedoHistory() {
-        redoHistory.add(getTempList());
-
-
+    public String getSizeChooser() {
+        return sizeChooser.get();
     }
 
-
-    public void undo() {
-
-        if(undoHistory.isEmpty())
-            return;
-
-        addToRedoHistory();
-        shapeList.clear();
-        shapeList.addAll(undoHistory.removeLast());
-
-
-
-
-
-
-
+    public StringProperty sizeChooserProperty() {
+        return sizeChooser;
     }
-    public void redo() {
 
-        if(redoHistory.isEmpty())
-            return;
+    public Optional <Shape> checkIfInsideShape() {
+            return shapeList.stream()
+                    .filter(shape -> shape.isInsideShape(getX(),getY()))
+                    .reduce((first,second) -> second);
 
-        addToUndoHistory();
-        shapeList.clear();
-        shapeList.addAll(redoHistory.removeLast());
-    }
+
+
+        }
+
+
+//    public void selectedShapesContain(Shape shape) {
+//            if(shapeList.contains(shape)) {
+//                shape.setColor(Color.TRANSPARENT);
+//                shapeList.remove(shape);
+//
+//            }else {
+//                shape.setColor(Color.TRANSPARENT);
+//                shapeList.add(shape);
+//
+//            }
+
+
+//    public void createObjects() {
+//
+//        Shape createObject = ShapeFactory.creatingShapes
+//                (getCurrentShapeType(), getX(), getY(),getColorPickerSelect(), (int) getShapeSizeAsDoubled());
+//
+//        shapeList.add(createObject);
+
+
+
+
+
 
 
 }
-
-

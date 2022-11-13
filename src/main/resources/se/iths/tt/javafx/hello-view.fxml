@@ -5,96 +5,76 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.tt.javafx.HelloController">
-   <top>
-      <HBox fx:id="makeHBox" prefHeight="66.0" prefWidth="600.0" spacing="40.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
+<BorderPane fx:id="scenePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="510.0" prefWidth="688.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="se.iths.tt.javafx.Controller.HelloController">
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <center>
+      <Canvas fx:id="canvas" height="484.0" onMouseClicked="#canvasClicked" width="584.0" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></Canvas>
+   </center>
+   <left>
+      <VBox prefHeight="510.0" prefWidth="88.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#onCircleClicked" style="-fx-background-color: white;" text="Cirkel">
-               <font>
-                  <Font name="Georgia Bold" size="14.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <HBox.margin>
-                  <Insets right="-20.0" top="10.0" />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onRectangleClicked" style="-fx-background-color: white;" text="Rektangel">
-               <font>
-                  <Font name="Georgia Bold" size="14.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="-20.0" top="10.0" />
-               </HBox.margin>
-            </Button>
+            <ChoiceBox fx:id="choiceBox" prefWidth="150.0">
+               <VBox.margin>
+                  <Insets left="5.0" top="80.0" />
+               </VBox.margin></ChoiceBox>
+            <TextField fx:id="sizeChooser" prefHeight="25.0" prefWidth="24.0">
+               <VBox.margin>
+                  <Insets bottom="-10.0" left="5.0" top="30.0" />
+               </VBox.margin>
+            </TextField>
             <ColorPicker fx:id="myColorPicker" prefHeight="25.0" prefWidth="52.0" style="-fx-background-color: white;">
-               <HBox.margin>
-                  <Insets right="-50.0" top="10.0" />
-               </HBox.margin></ColorPicker>
+               <VBox.margin>
+                  <Insets left="5.0" top="20.0" />
+               </VBox.margin></ColorPicker>
             <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undoClicked" style="-fx-background-color: white;" text="Undo">
-               <HBox.margin>
-                  <Insets left="20.0" right="10.0" top="10.0" />
-               </HBox.margin>
                <font>
                   <Font name="Georgia Bold" size="14.0" />
                </font>
-            </Button>
-            <Button fx:id="redoButton" mnemonicParsing="false" onAction="#redo" style="-fx-background-color: white;" text="Redo">
-               <HBox.margin>
-                  <Insets left="-50.0" right="-50.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Georgia Bold" size="14.0" />
-               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="20.0" />
+               </VBox.margin>
             </Button>
             <Button fx:id="eraserButton" mnemonicParsing="false" onAction="#eraser" style="-fx-background-color: white;" text="Eraser">
-               <HBox.margin>
-                  <Insets left="20.0" right="-90.0" top="10.0" />
-               </HBox.margin>
                <font>
                   <Font name="Georgia Bold" size="14.0" />
                </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="20.0" />
+               </VBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onAction="#save" style="-fx-background-color: white;" text="Save">
+               <font>
+                  <Font name="Georgia Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </VBox.margin>
+            </Button>
+            <ToggleButton fx:id="selectMode" mnemonicParsing="false" prefHeight="25.0" prefWidth="80.0" style="-fx-background-color: white;" text="SelectMode">
+               <VBox.margin>
+                  <Insets left="5.0" top="20.0" />
+               </VBox.margin>
+            </ToggleButton>
             <Button fx:id="logoutButton" mnemonicParsing="false" onAction="#exitAction" style="-fx-background-color: white;" text="Exit">
                <font>
                   <Font name="Georgia Bold" size="14.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="100.0" top="10.0" />
-               </HBox.margin>
+               <VBox.margin>
+                  <Insets left="5.0" top="65.0" />
+               </VBox.margin>
             </Button>
          </children>
-         <padding>
-            <Insets left="10.0" top="10.0" />
-         </padding>
-         <BorderPane.margin>
-            <Insets />
-         </BorderPane.margin>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </HBox>
-   </top>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
-   <right>
-      <HBox prefHeight="204.0" prefWidth="62.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER">
-         <children>
-            <ChoiceBox fx:id="myChoiceBox" prefHeight="25.0" prefWidth="59.0">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </ChoiceBox>
-         </children>
-      </HBox>
-   </right>
-   <center>
-      <Canvas fx:id="canvas" height="310.0" onMouseClicked="#canvasClicked" width="507.0" BorderPane.alignment="CENTER" />
-   </center>
+      </VBox>
+   </left>
 </BorderPane>

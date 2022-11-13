@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 public class Circle extends Shape {
 
 
-    public Circle(double x, double y, Color color, double size) {
+    public Circle(double x, double y, Color color, int size) {
         super(x, y, color, size);
     }
 
@@ -22,9 +22,26 @@ public class Circle extends Shape {
 
     }
 
+
+
     @Override
-    public Shape getShapeCopy() {
-        return new Circle(getX(),getY(),getColor(),getSize());
+    public boolean isInsideShape(double mouseX, double mouseY) {
+        double distX = mouseX - getX();
+        double distY = mouseY - getY();
+        double distance = Math.sqrt((distX * distX) + (distY * distY));
+
+        return distance <= getSize();
+
+
+
+    }
+
+    @Override
+    public String svgFormat() {
+        return "<circle cx=\"" + getX() + "\" " +
+                "cy=\"" + getY() + "\" " +
+                "r=\"" + getSize() +
+                "\" fill=\"#" + getColor().toString().substring(2,10) + "\" />";
     }
 }
 

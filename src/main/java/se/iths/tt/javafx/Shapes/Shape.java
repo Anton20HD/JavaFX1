@@ -4,13 +4,13 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
+
 public abstract class Shape {
 
    private final double x;
    private final double y;
-
-   private final double size;
-
+   private double size;
    private final SimpleObjectProperty<Color> color = new SimpleObjectProperty<>();
 
 
@@ -25,15 +25,6 @@ public abstract class Shape {
     }
 
 
-
-//    public void creatingShapes(double x, double y, int width, int height) {
-//
-//        this.x = x;
-//        this.y = y;
-//        this.width = width;
-//        this.height = height;
-//
-//    }
 
     public void setColor(Color color) {
 
@@ -52,14 +43,14 @@ public abstract class Shape {
         return y;
     }
 
-//    public void setY(double y) {
-//        this.y = y;
-//    }
 
     public double getSize() {
         return size;
     }
+    public void setSize(int size) {
 
+        this.size = size;
+    }
 
     public SimpleObjectProperty<Color> colorProperty() {
         return color;
@@ -69,8 +60,34 @@ public abstract class Shape {
         return color.get();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shape shape = (Shape) o;
+        return Double.compare(shape.x, x) == 0 && Double.compare(shape.y, y) == 0 && Double.compare(shape.size, size) == 0 && color.equals(shape.color);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, size, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Shape{" +
+                "x=" + x +
+                ", y=" + y +
+                ", size=" + size +
+                ", color=" + color +
+                '}';
+    }
+
     public abstract void draw(GraphicsContext context);
 
-    public abstract Shape getShapeCopy();
+    public abstract boolean isInsideShape(double mouseX, double mouseY);
+
+    public abstract String svgFormat();
+
 
 }
