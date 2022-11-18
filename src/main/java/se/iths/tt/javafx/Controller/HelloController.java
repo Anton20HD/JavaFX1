@@ -91,7 +91,7 @@ public class HelloController {
     public void undoClicked() {
 
             model.undoCommand();
-            eraser();
+            clear();
 
             model.checkIfInsideShape().ifPresent(shape -> shape.setColor(model.getColorPickerChooser()));
             draw();
@@ -122,7 +122,7 @@ public class HelloController {
         if(model.checkIfInsideShape().isEmpty())
             return;
 
-        eraser();
+        clear();
         model.checkIfInsideShape().ifPresent(shape -> shape.setColor(model.getColorPickerChooser()));
         model.checkIfInsideShape().ifPresent(shape -> shape.setSize((int) model.getShapeSizeAsDoubled()));
 
@@ -133,7 +133,7 @@ public class HelloController {
         if(model.checkIfInsideShape().isEmpty())
             return;
 
-        eraser();
+        clear();
         model.checkIfInsideShape().ifPresent(shape -> shape.setColor(model.getColorPickerChooser()));
         model.checkIfInsideShape().ifPresent(shape -> shape.setSize((int) model.getShapeSizeAsDoubled()));
     }
@@ -154,11 +154,16 @@ public class HelloController {
 
     public void eraser() {
 
-        context.setFill(Color.WHITE);
-        context.fillRect(0,0,canvas.getWidth(), canvas.getHeight());
+        clear();
+        model.getShapeObservableList().clear();
 
     }
+    public void clear() {
 
+        context.setFill(Color.WHITE);
+        context.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+
+    }
 
 
 }

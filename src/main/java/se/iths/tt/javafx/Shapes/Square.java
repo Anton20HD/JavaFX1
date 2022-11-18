@@ -33,10 +33,10 @@ public class Square extends Shape {
     @Override
     public String svgFormat() {
         String convertedColor = "#" + getColor().toString().substring(2,10);
-        return "<rect x=\"" + (getX() - getSize()) + "\" " +
-                "y=\"" + (getY() - getSize()) + "\" " +
-                "width=\"" + (2 * getSize()) + "\" " +
-                "height=\"" + (2 * getSize()) + "\" " +
+        return "<rect x=\"" + (getX() - getSize()/2) + "\" " +
+                "y=\"" + (getY() - getSize()/2) + "\" " +
+                "width=\"" + (getSize()) + "\" " +
+                "height=\"" + (getSize()) + "\" " +
                 "fill=\"" + convertedColor + "\" />";
 
 
